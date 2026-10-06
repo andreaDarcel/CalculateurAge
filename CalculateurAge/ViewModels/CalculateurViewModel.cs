@@ -1,12 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CalculateurAge.ViewModels;
 
-namespace CalculateurAge.ViewModels
+public class CalculateurViewModel : BaseViewModel
 {
-    class CalculateurViewModel
+    private string _nom = "";
+    private DateTime _dateNaissance = DateTime.Today.AddYears(-20);
+    private string _resultat = "";
+    private bool _resultatVisible;
+    private string _statut = "";
+    public string Statut
     {
+        get => _statut;
+        set => SetField(ref _statut, value);
+    }
+
+    public RelayCommand EffacerCommand { get; }
+
+    public string Nom
+    {
+        get => _nom;
+        set
+        {
+            if (SetField(ref _nom, value))
+            {
+                CalculerCommand.Rafraichir();
+            }
+        }
+    }
+
+    public DateTime DateNaissance
+    {
+        get => _dateNaissance;
+        set => SetField(ref _dateNaissance, value);
+    }
+
+    public string Resultat
+    {
+        get => _resultat;
+        set => SetField(ref _resultat, value);
+    }
+
+    public bool ResultatVisible
+    {
+        get => _resultatVisible;
+        set => SetField(ref _resultatVisible, value);
+    }
+
+    public RelayCommand CalculerCommand { get; }
+
+    public CalculateurViewModel()
+    {
+        CalculerCommand = new RelayCommand(
+            Calculer,
+            () => !string.IsNullOrWhiteSpace(Nom)
+        );
+        EffacerCommand = new RelayCommand(Effacer);
+    }
+
+    private void Calculer()
+    {
+        int age = DateTime.Today.Year - DateNaissance.Year;
+        if (DateNaissance.Date > DateTime.Today.AddYears(-age))
+            age--;
+
+        Resultat = $"{Nom}, vous avez {age} ans";
+        ResultatVisible = true;
+    }
+
+    private void Effacer()
+    {
+        Nom = "";
+        DateNaissance = DateTime.Today.AddYears(-20);
+        Resultat = "";
+        Statut = "";
+        ResultatVisible = false;
     }
 }
