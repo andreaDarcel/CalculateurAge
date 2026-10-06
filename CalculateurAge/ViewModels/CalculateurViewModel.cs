@@ -58,11 +58,19 @@ public class CalculateurViewModel : BaseViewModel
 
     private void Calculer()
     {
+        // Validation : Refus d'une date future
+       if (DateNaissance.Date > DateTime.Today)
+        {
+            Resultat = "Erreur : La date de naissance ne peut pas être dans le futur.";
+            ResultatVisible = true;
+            return;
+        }
+
         int age = DateTime.Today.Year - DateNaissance.Year;
         if (DateNaissance.Date > DateTime.Today.AddYears(-age))
             age--;
 
-        Resultat = $"{Nom}, vous avez {age} ans";
+        Resultat = $"{Nom}, vous avez {age} ans.";
         ResultatVisible = true;
     }
 
