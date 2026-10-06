@@ -20,7 +20,6 @@ public partial class MainPage : ContentPage
 
         if (d.Date > DateTime.Today.AddYears(-age))
             age--;
-        // Afficher le résultat
         lblResultat.Text = $"{entryNom.Text}, vous avez {age} ans";
         lblResultat.IsVisible = true;
     }
