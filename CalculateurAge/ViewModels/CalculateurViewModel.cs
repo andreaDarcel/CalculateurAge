@@ -62,6 +62,7 @@ public class CalculateurViewModel : BaseViewModel
        if (DateNaissance.Date > DateTime.Today)
         {
             Resultat = "Erreur : La date de naissance ne peut pas être dans le futur.";
+            Statut = "";
             ResultatVisible = true;
             return;
         }
@@ -71,6 +72,7 @@ public class CalculateurViewModel : BaseViewModel
             age--;
 
         Resultat = $"{Nom}, vous avez {age} ans.";
+        Statut = age >= 18 ? "Statut : Majeur(e)" : "Statut : Mineur(e)";
         ResultatVisible = true;
     }
 
